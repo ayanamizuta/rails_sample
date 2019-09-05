@@ -25,7 +25,17 @@ jobs:
         volumes:
           - /var/lib/mysql/mysql.sock:/var/run/mysqld/mysqld.sock
     runs-on: ubuntu-latest
+		container:
+			imag: ruby:2.5
     steps:
     - uses: actions/checkout@master
     - name: install bundler
       run: gem install bundler -v 2.0.1
+    - name: build
+      run: bundle install
+    - name: create
+      run: RAILS_ENV=test bundle exec rake db:create
+    - name: migrate
+      run: RAILS_ENV=test bundle exec rake db:migrate
+    - name: autorun rspec tests
+      run: bundle exec rspec spec
