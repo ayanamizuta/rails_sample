@@ -24,6 +24,7 @@ jobs:
         image: ruby:2.5
         volumes:
           - /var/lib/mysql/mysql.sock:/var/run/mysqld/mysqld.sock
+    runs-on: ruby:2.5
     steps:
     - uses: actions/checkout@master
     - name: install bundler
