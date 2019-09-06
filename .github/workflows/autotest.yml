@@ -34,10 +34,12 @@ jobs:
         apt-get install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev
         git clone https://github.com/rbenv/rbenv.git ~/.rbenv
         git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+    - name: setup rbenv
+      run: |
         echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
         ~/.rbenv/bin/rbenv init
         source ~/.bash_profile
-        rbenv install 2.5.1
+        ~/.rbenv/bin/rbenv install 2.5.1
     - uses: actions/checkout@master
     - name: install bundler
       run: gem install bundler -v 2.0.1
