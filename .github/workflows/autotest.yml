@@ -31,17 +31,5 @@ jobs:
         DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools
     - name: net
       run: netstat -a
-    - name: install bundler
-      run: gem install bundler -v 2.0.1
-    - name: build
-      run: bundle install
-    - name: create
-      run: RAILS_ENV=test bundle exec rake db:create
-      env:
-       DATABASE_URL: mysql2://test:test@mysql:${{ job.services.mysql.ports['3306'] }}
-    - name: migrate
-      run: RAILS_ENV=test bundle exec rake db:migrate
-      env:
-       DATABASE_URL: mysql2://test:test@mysql:${{ job.services.mysql.ports['3306'] }}
-    - name: autorun rspec tests
-      run: bundle exec rspec spec
+    - name: net2
+      run: echo ${{ job.services.mysql.ports['3306'] }}
