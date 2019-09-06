@@ -13,8 +13,6 @@ services:
       - '3000:3000'
     volumes:
       - .:/rails_project/app
-    links:
-      - mysql
     depends_on:
       - mysql
   mysql:
