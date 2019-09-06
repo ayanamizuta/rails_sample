@@ -25,10 +25,17 @@ jobs:
           - "6379:6379"
     steps:
     - uses: actions/checkout@master
-    - name: mysql Install
-      run: gem install mysql2
-    - name: connect
-      run: |
-        echo "require 'mysql2'" > net.rb
-        echo 'client = Mysql2::Client.new(:host => "mysql", :username => "test", :password => "tes")' >> net.rb
-        ruby net.rb
+    - name: bundler install
+      run: gem install bundler -v 2.0.1
+    - name: build
+      run: bundle install
+    - name: create
+      run: RAILS_ENV=test bundle exec rake db:create
+      env:
+       DATABASE_URL: mysql2://test:test@mysql
+    - name: migrate
+      run: RAILS_ENV=test bundle exec rake db:migrate
+      env:
+       DATABASE_URL: mysql2://test:test@mysql
+    - name: autorun rspec tests
+      run: bundle exec rspec spec
