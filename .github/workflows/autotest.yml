@@ -35,10 +35,10 @@ jobs:
     - name: create
       run: RAILS_ENV=test bundle exec rake db:create
       env:
-       DATABASE_URL: mysql2://test:test@$127.0.0.1:${{ job.services.mysql.ports['3306'] }}
+       DATABASE_URL: mysql2://test:test@127.0.0.1:${{ job.services.mysql.ports['3306'] }}
     - name: migrate
       run: RAILS_ENV=test bundle exec rake db:migrate
       env:
-       DATABASE_URL: mysql2://test:test@$127.0.0.1:${{ job.services.mysql.ports['3306'] }}
+       DATABASE_URL: mysql2://test:test@127.0.0.1:${{ job.services.mysql.ports['3306'] }}
     - name: autorun rspec tests
       run: bundle exec rspec spec
