@@ -25,17 +25,17 @@ jobs:
           - "6379:6379"
     steps:
     - uses: actions/checkout@master
+    - name: netinstall
+      run: |
+        apt-get update
+        DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools
     - name: net_pre
-      run: echo ${{ job.services.mysql.ports['3306'] }}
+      run: netstat -a
     - name: Verify MySQL connection from container
       run: |
         apt-get update
         apt-get install -y mysql-client
         mysql --host mysql -uroot -ppassword -e "SHOW DATABASES"
-    - name: netinstall
-      run: |
-        apt-get update
-        DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools
     - name: net
       run: netstat -a
     - name: net2
