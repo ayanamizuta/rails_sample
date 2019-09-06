@@ -5,7 +5,7 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: ruby:2.5
+    container: ubuntu
     services:
       mysql:
         image: mysql:5.7
@@ -24,14 +24,14 @@ jobs:
         ports:
           - "6379:6379"
     steps:
-    - uses: actions/checkout@master
-    - name: install bundler
-      run: gem install bundler -v 2.0.1
     - name: Verify MySQL connection from container
       run: |
         apt-get update
         apt-get install -y mysql-client
         mysql --host mysql -uroot -ppassword -e "SHOW DATABASES"
+    - uses: actions/checkout@master
+    - name: install bundler
+      run: gem install bundler -v 2.0.1
     - name: build
       run: bundle install
     - name: create
