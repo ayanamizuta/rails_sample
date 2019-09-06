@@ -13,7 +13,9 @@ jobs:
           MYSQL_PASSWORD: test
           MYSQL_ROOT_PASSWORD: password
         volumes:
-          - mysql-data:/var/lib/mysql
+          - /var/run/mysqld/mysqld.sock:/var/lib/mysql
+        options:
+          hostname: mysql
         ports:
           - 3306/tcp
       redis:
@@ -34,10 +36,10 @@ jobs:
     - name: create
       run: RAILS_ENV=test bundle exec rake db:create
       env:
-       DATABASE_URL: mysql2://test:test@mysql:${{ job.services.mysql.ports['3306'] }}
+       DATABASE_URL: mysql2://test:test@${{ job.services.mysql }}:${{ job.services.mysql.ports['3306'] }}
     - name: migrate
       run: RAILS_ENV=test bundle exec rake db:migrate
       env:
-       DATABASE_URL: mysql2://test:test@mysql:${{ job.services.mysql.ports['3306'] }}
+       DATABASE_URL: mysql2://test:test@${{ job.services.mysql }}:${{ job.services.mysql.ports['3306'] }}
     - name: autorun rspec tests
       run: bundle exec rspec spec
