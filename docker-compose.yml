@@ -16,9 +16,11 @@ services:
     depends_on:
       - mysql
   mysql:
-    image: mysql:5.7
+    image: ubuntu:18.04
     environment:
       MYSQL_ROOT_PASSWORD: 'pass'
+    tty:
+      true
     ports:
       - '3306:3306'
     volumes:

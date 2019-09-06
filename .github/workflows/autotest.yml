@@ -25,6 +25,8 @@ jobs:
           - "6379:6379"
     steps:
     - uses: actions/checkout@master
+    - name: netinstall
+      run: DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools
     - name: net
       run: ss -a
     - name: install bundler
