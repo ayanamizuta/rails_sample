@@ -32,10 +32,10 @@ jobs:
     - name: create
       run: RAILS_ENV=test bundle exec rake db:create
       env:
-       DATABASE_URL: mysql2://test:test@mysql:3306
+       DATABASE_URL: mysql2://test:test@localhost:3306
     - name: migrate
       run: RAILS_ENV=test bundle exec rake db:migrate
       env:
-       DATABASE_URL: mysql2://test:test@mysql:3306
+       DATABASE_URL: mysql2://test:test@localhost:3306
     - name: autorun rspec tests
       run: bundle exec rspec spec
