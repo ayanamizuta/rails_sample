@@ -30,5 +30,5 @@ jobs:
     - name: connect
       run: |
         echo "require 'mysql2'" > net.rb
-        echo 'client = Mysql2::Client.new(:host => "mysql", :username => "test", :password => "test")' >> net.rb
+        echo 'client = Mysql2::Client.new(:host => "mysql", :username => "test", :password => "tes")' >> net.rb
         ruby net.rb
