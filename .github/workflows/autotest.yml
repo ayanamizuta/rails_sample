@@ -15,7 +15,7 @@ jobs:
         volumes:
           - /tmp/mysql.sock:/var/lib/mysql/mysql.sock
         ports:
-          - "3306:3306"
+          - 3306/tcp
       redis:
         image: redis
         ports:
@@ -32,7 +32,7 @@ jobs:
     - name: create
       run: RAILS_ENV=test bundle exec rake db:create
       env:
-       DATABASE_URL: mysql2://test:test@localhost:3306
+       DATABASE_URL: mysql2://test:test@localhost:${{ job.services.mysql.ports['3306'] }}
     - name: migrate
       run: RAILS_ENV=test bundle exec rake db:migrate
       env:
