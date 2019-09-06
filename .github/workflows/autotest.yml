@@ -8,10 +8,10 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_DATABASE: test
-          MYSQL_USER: test
-          MYSQL_PASSWORD: test
-          MYSQL_ROOT_PASSWORD: password
+          - MYSQL_DATABASE: test
+          - MYSQL_USER: test
+          - MYSQL_PASSWORD: test
+          - MYSQL_ROOT_PASSWORD: password
         volumes:
           - /tmp/mysql.sock:/var/lib/mysql/mysql.sock
         ports:
@@ -31,8 +31,11 @@ jobs:
       run: bundle install
     - name: create
       run: RAILS_ENV=test bundle exec rake db:create
-      DATABASE_URL: mysql2://test:test@mysql:3306
+      env:
+       - DATABASE_URL: mysql2://test:test@mysql:3306
     - name: migrate
       run: RAILS_ENV=test bundle exec rake db:migrate
+      env:
+       - DATABASE_URL: mysql2://test:test@mysql:3306
     - name: autorun rspec tests
       run: bundle exec rspec spec
