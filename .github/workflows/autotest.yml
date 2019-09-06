@@ -5,7 +5,7 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: ruby:2.5
+    container: ubuntu
     services:
       mysql:
         image: mysql:5.7
