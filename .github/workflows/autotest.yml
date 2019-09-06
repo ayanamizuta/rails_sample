@@ -30,7 +30,7 @@ jobs:
         apt-get update
         DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools
     - name: net
-      run: ss -a
+      run: netstat -a
     - name: install bundler
       run: gem install bundler -v 2.0.1
     - name: build
