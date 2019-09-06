@@ -3,35 +3,44 @@ name: Autotest
 on: [push]
 
 jobs:
-  test-host:
+  test:
     runs-on: ubuntu-latest
+    container: ruby:2.5
     services:
       mysql:
         image: mysql:5.7
         env:
+          MYSQL_DATABASE: test
+          MYSQL_USER: test
+          MYSQL_PASSWORD: test
           MYSQL_ROOT_PASSWORD: password
+        volumes:
+          - /var/run/mysqld/mysqld.sock:/var/lib/mysql
         ports:
-        - 3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+          - 3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=3
+      redis:
+        image: redis
+        ports:
+          - "6379:6379"
     steps:
-    - name: Verify MySQL connection from host
-      run: |
-        sudo apt-get install -y mysql-client
-        mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -uroot -ppassword -e "SHOW DATABASES"
-  test-container:
-    runs-on: ubuntu-latest
-    container: ubuntu
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: password
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
-    steps:
-    - name: find
-      run: find / -name mysql.sock
+    - uses: actions/checkout@master
+    - name: install bundler
+      run: gem install bundler -v 2.0.1
     - name: Verify MySQL connection from container
       run: |
         apt-get update
         apt-get install -y mysql-client
         mysql --host mysql -uroot -ppassword -e "SHOW DATABASES"
+    - name: build
+      run: bundle install
+    - name: create
+      run: RAILS_ENV=test bundle exec rake db:create
+      env:
+       DATABASE_URL: mysql2://test:test@mysql:${{ job.services.mysql.ports['3306'] }}
+    - name: migrate
+      run: RAILS_ENV=test bundle exec rake db:migrate
+      env:
+       DATABASE_URL: mysql2://test:test@mysql:${{ job.services.mysql.ports['3306'] }}
+    - name: autorun rspec tests
+      run: bundle exec rspec spec
