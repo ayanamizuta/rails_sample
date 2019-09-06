@@ -11,21 +11,18 @@ services:
     stdin_open: true # この行を追加
     ports:
       - '3000:3000'
-    volumes:
-      - .:/rails_project/app
+    #volumes:
+    #  - .:/rails_project/app
     depends_on:
       - mysql
   mysql:
-    image: ubuntu:18.04
+    image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: 'pass'
-    tty:
-      true
     ports:
       - '3306:3306'
     volumes:
       - mysql-data:/var/lib/mysql
-    hostname: 'aaa'
 volumes:
   mysql-data:
     driver: local

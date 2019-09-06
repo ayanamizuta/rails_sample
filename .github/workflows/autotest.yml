@@ -5,7 +5,7 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: ubuntu
+    container: ruby:2.5
     services:
       mysql:
         image: mysql:5.7
@@ -25,18 +25,10 @@ jobs:
           - "6379:6379"
     steps:
     - uses: actions/checkout@master
-    - name: netinstall
+    - name: mysql Install
+      run: gem install mysql2
+    - name: connect
       run: |
-        apt-get update
-        DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools
-    - name: net_pre
-      run: netstat -a
-    - name: Verify MySQL connection from container
-      run: |
-        apt-get update
-        apt-get install -y mysql-client
-        mysql --host mysql -uroot -ppassword -e "SHOW DATABASES"
-    - name: net
-      run: netstat -a
-    - name: net2
-      run: echo ${{ job.services.mysql.ports['3306'] }}
+        echo "require 'mysql2'" > net.rb
+        echo 'client = Mysql2::Client.new(:host => "mysql", :username => "test", :password => "test")' >> net.rb
+        ruby net.rb
