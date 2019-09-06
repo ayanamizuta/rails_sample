@@ -25,6 +25,11 @@ jobs:
           - "6379:6379"
     steps:
     - uses: actions/checkout@master
+    - name: Verify MySQL connection from container
+      run: |
+        apt-get update
+        apt-get install -y mysql-client
+        mysql --host mysql -uroot -ppassword -e "SHOW DATABASES"
     - name: netinstall
       run: |
         apt-get update
