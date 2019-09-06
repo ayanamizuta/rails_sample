@@ -13,7 +13,7 @@ jobs:
           MYSQL_PASSWORD: test
           MYSQL_ROOT_PASSWORD: password
         volumes:
-          - /var/lib/mysql/mysql.sock:/tmp/mysql.sock
+          - /tmp/mysql.sock:/var/lib/mysql/mysql.sock
         ports:
           - 3306/tcp
       redis:
