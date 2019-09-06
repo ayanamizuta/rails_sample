@@ -14,8 +14,6 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
         volumes:
           - /var/run/mysqld/mysqld.sock:/var/lib/mysql
-        options:
-          hostname: mysql
         ports:
           - 3306/tcp
       redis:
