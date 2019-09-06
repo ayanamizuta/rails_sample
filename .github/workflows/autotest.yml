@@ -25,6 +25,8 @@ jobs:
           - "6379:6379"
     steps:
     - uses: actions/checkout@master
+    - name: net_pre
+      run: echo ${{ job.services.mysql.ports['3306'] }}
     - name: Verify MySQL connection from container
       run: |
         apt-get update
