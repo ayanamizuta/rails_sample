@@ -13,17 +13,13 @@ jobs:
           MYSQL_PASSWORD: test
           MYSQL_ROOT_PASSWORD: password
         volumes:
-          - /tmp/mysql.sock:/var/lib/mysql/mysql.sock
+          - :/var/lib/mysql/mysql.sock:/tmp/mysql.sock
         ports:
           - 3306/tcp
       redis:
         image: redis
         ports:
           - 6379/tcp
-      rails:
-        image: ruby:2.5
-        volumes:
-          - /tmp/mysql.sock:/var/run/mysqld/mysqld.sock
     runs-on: ubuntu-latest
     container:
       image: ruby:2.5
