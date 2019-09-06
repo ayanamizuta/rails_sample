@@ -26,7 +26,9 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: netinstall
-      run: DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools
+      run: |
+        apt-get update
+        DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools
     - name: net
       run: ss -a
     - name: install bundler
