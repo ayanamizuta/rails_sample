@@ -1,3 +1,7 @@
+name: Autotest
+
+on: [push]
+
 jobs:
   test-host:
     runs-on: ubuntu-latest
