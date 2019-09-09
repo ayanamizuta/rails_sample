@@ -10,7 +10,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_DATABASE: testt
+          MYSQL_DATABASE: test
           MYSQL_USER: test
           MYSQL_PASSWORD: test
           MYSQL_ROOT_PASSWORD: password
@@ -25,17 +25,7 @@ jobs:
           - "6379:6379"
     steps:
     - uses: actions/checkout@master
-    - name: bundler install
-      run: gem install bundler -v 2.0.1
-    - name: build
-      run: bundle install
-    - name: create
-      run: RAILS_ENV=test bundle exec rake db:create
-      env:
-       DATABASE_URL: mysql2://test:test@mysql
-    - name: migrate
-      run: RAILS_ENV=test bundle exec rake db:migrate
-      env:
-       DATABASE_URL: mysql2://test:test@mysql
-    - name: autorun rspec tests
-      run: bundle exec rspec spec
+    - name: cat etc host
+      run: cat /etc/hosts
+    - name: cat etc resolv
+      run: cat /etc/resolv.conf
