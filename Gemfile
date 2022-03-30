@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '5.2.1'
 gem 'mysql2', '>= 0.3.20'
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 4.3'
 
 gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
